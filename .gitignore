@@ -128,3 +128,5 @@ results/
 *_generated.sdf
 evaluation/reid_dataset/raw/
 # End of https://www.toptal.com/developers/gitignore/api/venv,pycharm+all,visualstudiocode
+__pycache__/
+*.pyc
