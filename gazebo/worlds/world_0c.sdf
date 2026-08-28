@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<sdf version='1.8'>
+  <world name='world_0c'>
+    <scene>
+      <grid>false</grid>
+    </scene>
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.003</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>200</real_time_update_rate>
+    </physics>
+    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system" />
+    <plugin name="gz::sim::systems::UserCommands" filename="gz-sim-user-commands-system" />
+    <plugin name="gz::sim::systems::SceneBroadcaster" filename="gz-sim-scene-broadcaster-system" />
+    <plugin name="gz::sim::systems::Contact" filename="gz-sim-contact-system" />
+    <!--<plugin name="gz::sim::systems::Sensors" filename="gz-sim-sensors-system">
+        <render_engine>ogre2</render_engine>
+    </plugin>-->
+
+    
+    <plugin filename="gz-sim-pose-publisher-system" name="gz::sim::systems::PosePublisher">
+        <publish_model_pose>true</publish_model_pose>
+        <publish_nested_model_pose>true</publish_nested_model_pose>
+
+        <publish_link_pose>false</publish_link_pose>
+        <publish_visual_pose>false</publish_visual_pose>
+        <publish_collision_pose>false</publish_collision_pose>
+        <publish_sensor_pose>false</publish_sensor_pose>
+
+        <use_pose_vector_msg>true</use_pose_vector_msg>
+        <update_frequency>30</update_frequency>
+    </plugin>
+
+    <light name='ambient' type='point'>
+        <pose>0 0 5 0 0 0</pose>
+        <diffuse>0.35 0.35 0.35 1</diffuse>
+        <specular>0.05 0.05 0.05 1</specular>
+        <attenuation>
+            <range>50</range>
+            <constant>0.9</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+        </attenuation>
+    </light>
+
+    <light name='front' type='directional'>
+        <pose>0 0 10 0 0 0</pose>
+        <diffuse>0.5 0.5 0.5 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+        <direction>0 0.5 -0.9</direction>
+    </light>
+
+    <model name='ground_plane'>
+        <static>1</static>
+        <link name='link'>
+            <collision name='collision'>
+                <geometry>
+                    <plane>
+                        <normal>0 0 1</normal>
+                        <size>100 100</size>
+                    </plane>
+                </geometry>
+                <surface>
+                    <friction>
+                        <ode/>
+                    </friction>
+                    <bounce/>
+                    <contact/>
+                </surface>
+            </collision>
+            <visual name='visual'>
+                <geometry>
+                    <plane>
+                        <normal>0 0 1</normal>
+                        <size>100 100</size>
+                    </plane>
+                </geometry>
+                <material>
+                    <ambient>1 1 1 1</ambient>
+                    <diffuse>1 1 1 1</diffuse>
+                    <specular>1 1 1 1</specular>
+                </material>
+            </visual>
+        </link>
+        <pose>0 0 0 0 0 0</pose>
+    </model>
+
+    <model name="wall_1">
+      <static>false</static>
+      <pose>-2 5.0 1 0 0 -0.78</pose>
+
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>4 0.1 2</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>4 0.1 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>1 0 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <actor name="Remy">
+      <pose>-4.5 7.5 0.92 1.57 0 0</pose>
+      <skin>
+        <filename>../models/actors/Remy/meshes/character.dae</filename>
+      </skin>
+      <animation name="walk">
+        <filename>../models/actors/Remy/meshes/character.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+          <loop>true</loop>
+          <delay_start>0</delay_start>
+          <auto_start>true</auto_start>
+          <trajectory id="1" type="walk">
+                <waypoint>
+                    <time>0</time>
+                    <pose>0 0 1 0 -6.28 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>18</time>
+                    <pose>0 0 1 0 -6.28 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>18.5</time>
+                    <pose>0 0 1 0 -4.71 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>19</time>
+                    <pose>0 0 1 0 -3.14 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>19.5</time>
+                    <pose>0 0 1 0 -1.57 0</pose>
+                </waypoint>
+              <waypoint>
+                  <time>20</time>
+                  <pose>0 0 1 0 0 0</pose>
+              </waypoint>
+              <waypoint>
+                  <time>27</time>
+                  <pose>0 0 4 0 0 0</pose>
+              </waypoint>
+              <waypoint>
+                  <time>30</time>
+                  <pose>1 0 5 0 1.57 0</pose>
+              </waypoint>
+              <waypoint>
+                  <time>37</time>
+                  <pose>4 0 5 0 1.57 0</pose>
+              </waypoint>
+              <waypoint>
+                  <time>40</time>
+                  <pose>5 0 4 0 3.14 0</pose>
+              </waypoint>
+              <waypoint>
+                  <time>47</time>
+                  <pose>5 0 1 0 3.14 0</pose>
+              </waypoint>
+              <waypoint>
+                  <time>50</time>
+                  <pose>4 0 0 0 4.71 0</pose>
+              </waypoint>
+              <waypoint>
+                  <time>57</time>
+                  <pose>1 0 0 0 4.71 0</pose>
+              </waypoint>
+              <waypoint>
+                  <time>60</time>
+                  <pose>0 0 1 0 6.28 0</pose>
+              </waypoint>
+          </trajectory>
+      </script>
+    </actor>
+  </world>
+</sdf>

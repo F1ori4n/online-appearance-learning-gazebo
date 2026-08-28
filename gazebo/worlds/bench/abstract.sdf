@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<sdf version='1.8'>
+  <world name='{{WORLD_NAME}}'>
+    <physics name='1ms' type='ode'>
+      <max_step_size>0.003</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>200</real_time_update_rate>
+    </physics>
+
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+    <plugin name='gz::sim::systems::Contact' filename='gz-sim-contact-system'/>
+
+        <!-- Gleichmäßiges Umgebungslicht ohne Schatten -->
+        <!-- Einzelnes, weiches Umgebungslicht (schattenfrei) -->
+    <light name='ambient' type='point'>
+        <pose>0 0 5 0 0 0</pose>
+        <diffuse>0.35 0.35 0.35 1</diffuse>
+        <specular>0.05 0.05 0.05 1</specular>
+        <attenuation>
+            <range>50</range>
+            <constant>0.9</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+        </attenuation>
+    </light>
+
+    <!-- Zusätzliches gerichtetes Licht (z. B. von vorne) -->
+    <light name='front' type='directional'>
+        <pose>0 0 10 0 0 0</pose>
+        <diffuse>0.5 0.5 0.5 1</diffuse>
+        <specular>0.1 0.1 0.1 1</specular>
+        <direction>0 0.5 -0.9</direction>
+    </light>
+
+    <model name='ground_plane'>
+        <static>1</static>
+        <link name='link'>
+            <collision name='collision'>
+                <geometry>
+                    <plane>
+                        <normal>0 0 1</normal>
+                        <size>100 100</size>
+                    </plane>
+                </geometry>
+                <surface>
+                    <friction>
+                        <ode/>
+                    </friction>
+                    <bounce/>
+                    <contact/>
+                </surface>
+            </collision>
+            <visual name='visual'>
+                <geometry>
+                    <plane>
+                        <normal>0 0 1</normal>
+                        <size>100 100</size>
+                    </plane>
+                </geometry>
+                <material>
+                    <ambient>1 1 1 1</ambient>
+                    <diffuse>1 1 1 1</diffuse>
+                    <specular>1 1 1 1</specular>
+                </material>
+            </visual>
+        </link>
+        <pose>0 0 0 0 0 0</pose>
+    </model>
+
+    <actor name="actor">
+      <pose>0 0 0.96 1.57 0 0</pose>
+      <skin>
+        <filename>../../models/actors/{{ACTOR}}/meshes/character.dae</filename>
+      </skin>
+      <animation name="walk">
+        <filename>../../models/actors/{{ACTOR}}/meshes/character.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+          <loop>true</loop>
+          <delay_start>20</delay_start>
+          <auto_start>true</auto_start>
+          <trajectory id="1" type="walk">
+                <waypoint>
+                    <time>0</time>
+                    <pose>0 0 0 0 0 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>1</time>
+                    <pose>0 0 0 0 1.57 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>2</time>
+                    <pose>0 0 0 0 3.14 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>3</time>
+                    <pose>0 0 0 0 4.71 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>4</time>
+                    <pose>0 0 0 0 6.28 0</pose>
+                </waypoint>
+          </trajectory>
+      </script>
+    </actor>
+  </world>
+</sdf>

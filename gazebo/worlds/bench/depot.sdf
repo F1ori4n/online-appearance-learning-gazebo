@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+  <world name="{{WORLD_NAME}}">
+    <scene>
+      <grid>false</grid>
+    </scene>
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.003</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>200</real_time_update_rate>
+    </physics>
+    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system" />
+    <plugin name="gz::sim::systems::UserCommands" filename="gz-sim-user-commands-system" />
+    <plugin name="gz::sim::systems::SceneBroadcaster" filename="gz-sim-scene-broadcaster-system" />
+    <plugin name="gz::sim::systems::Contact" filename="gz-sim-contact-system" />
+    <!--<plugin name="gz::sim::systems::Sensors" filename="gz-sim-sensors-system">
+        <render_engine>ogre2</render_engine>
+    </plugin>-->
+
+    <include>
+      <uri>../../models/depot</uri>
+    </include>
+
+    <!-- Extra collision for Depot crates -->
+    <model name="depot_crates_collision">
+    <static>true</static>
+    <pose>0 0 0 0 0 0</pose>
+
+    <link name="link">
+        <collision name="collision">
+        <geometry>
+            <mesh>
+            <scale>0.60 0.60 0.60</scale>
+            <uri>../../models/depot/meshes/Crates.dae</uri>
+            </mesh>
+        </geometry>
+        </collision>
+    </link>
+    </model>
+
+
+    <!-- Extra collision for Depot BOXSET submesh -->
+    <model name="depot_boxset_collision">
+    <static>true</static>
+    <pose>0 0 0 0 0 0</pose>
+
+    <link name="link">
+        <collision name="collision">
+        <geometry>
+            <mesh>
+            <scale>0.60 0.60 0.60</scale>
+            <uri>../../models/depot/meshes/Depot.dae</uri>
+            <submesh>
+                <name>BOXSET</name>
+                <center>false</center>
+            </submesh>
+            </mesh>
+        </geometry>
+        </collision>
+    </link>
+    </model>
+
+    <actor name="Remy1">
+      <pose>0 0 0.96 1.57 0 0</pose>
+      <skin>
+        <filename>../../models/actors/{{ACTOR}}/meshes/character.dae</filename>
+      </skin>
+      <animation name="walk">
+        <filename>../../models/actors/{{ACTOR}}/meshes/character.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+          <loop>true</loop>
+          <delay_start>20</delay_start>
+          <auto_start>true</auto_start>
+          <trajectory id="1" type="walk">
+                <waypoint>
+                    <time>0</time>
+                    <pose>0 0 0 0 0 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>1</time>
+                    <pose>0 0 0 0 1.57 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>2</time>
+                    <pose>0 0 0 0 3.14 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>3</time>
+                    <pose>0 0 0 0 4.71 0</pose>
+                </waypoint>
+                <waypoint>
+                    <time>4</time>
+                    <pose>0 0 0 0 6.28 0</pose>
+                </waypoint>
+          </trajectory>
+      </script>
+    </actor>
+  </world>
+</sdf>
